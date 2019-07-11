@@ -1,0 +1,7 @@
+.calculator {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 30px;
+    background: linear-gradient(to top, yellow, red)
+}
