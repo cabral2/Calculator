@@ -18,14 +18,34 @@ export default class Calculator extends React.Component {
     }
 
     setOperation(operacao){
-        switch (operacao){
-            case '+':
-            case '+':
-            case '+':
-            case '+':
-                console.log(operacao);
+        if(this.state.current == 0){
+            this.setState({operation: operacao , current: 1, clearStatus: true});
+        } else {
+            const equals = operacao == '=';
+            const currentOperation = this.state.operation;
 
+            const values = [...this.state.values];
+            console.log(currentOperation);
+            switch(currentOperation){
+                case '+': values[0] = values[0] + values[1]; break;
+                case '-': values[0] -= values[1]; break;
+                case '*': values[0] *= values[1]; break;
+                case '/': values[0] /= values[1]; break;
+                case '+/-': values[0] = Math.abs(values[0]); break;
+                case '%': values[0] = values[0] % values[1]; break;
+            }
+
+            values[1] = 0;
+
+            this.setState({
+                displayValue: values[0],
+                operation: equals ? null : operacao,
+                current: equals ? 0 : 1,
+                clearStatus: !equals,
+                values
+            })
         }
+        
     }
 
     addDigit(digit){
@@ -33,12 +53,9 @@ export default class Calculator extends React.Component {
             return;
         }
 
-        if(this.state.current == 1){
-            this.state.displayValue = '';
-        }
-
         if((this.state.displayValue == '0' || this.state.clearStatus == true) && digit != '.'){
             this.state.displayValue = '';  
+            this.state.clearStatus = false;
         }
         const displayValue = this.state.displayValue.concat(digit);
         console.log(displayValue)
